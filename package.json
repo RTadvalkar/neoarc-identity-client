@@ -39,7 +39,9 @@
     "react": ">=18"
   },
   "devDependencies": {
-    "@types/react": "latest",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@types/react": "^19.0.0",
     "eslint": "latest",
     "tsup": "latest",
     "typescript": "5.9.3",
