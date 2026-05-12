@@ -30,6 +30,8 @@ export interface SessionViewModel {
     availableTenants?: Array<{ id: number; name?: string }>
     claimsVersion?: string
     contextVersion?: string
+    operatorContext?: string
+    roleIds?: number[]
     reauthenticationRequired?: boolean
     assuranceLevel?: string
     authTime?: number
