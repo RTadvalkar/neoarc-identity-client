@@ -2,6 +2,41 @@ import type { AuthErrorEnvelope } from "./auth-errors"
 
 export type AuthStatus = "authenticated" | "unauthenticated" | "loading"
 
+export const SESSION_RUNTIME_STATES = [
+    "VALID_FRESH",
+    "VALID_STALE_REFRESHING",
+    "VALID_STALE_RESTRICTED",
+    "INVALID_REAUTH_REQUIRED",
+] as const
+
+export type SessionRuntimeState = (typeof SESSION_RUNTIME_STATES)[number]
+
+export const SESSION_CLAIM_FRESHNESS_REASONS = [
+    "POLICY_VERSION_STALE",
+    "TENANT_MEMBERSHIP_VERSION_STALE",
+    "CLAIM_PROFILE_VERSION_STALE",
+    "CLAIM_SCHEMA_VERSION_STALE",
+    "ROLE_REVOKED_OR_DOWNGRADED",
+    "TENANT_REMOVED",
+    "ACTIVE_TENANT_INVALID",
+    "USER_DISABLED",
+    "REFRESH_FAILED",
+] as const
+
+export type SessionClaimFreshnessReason = (typeof SESSION_CLAIM_FRESHNESS_REASONS)[number]
+
+export interface SessionFreshnessViewModel {
+    runtimeState: SessionRuntimeState
+    reasons: SessionClaimFreshnessReason[]
+    throttled: boolean
+    checkedAt: string
+    retryAfterMs?: number
+    claimSchemaVersion?: string
+    claimProfileVersion?: string
+    tenantMembershipVersion?: string
+    policyVersion?: string
+}
+
 export interface IdentityClientAppAdapter {
     appId: string
     sessionEndpoint: string
@@ -9,6 +44,7 @@ export interface IdentityClientAppAdapter {
     logoutPath: string
     callbackPath: string
     contextSwitchEndpoint?: string
+    freshnessEndpoint?: string
     forbiddenPath: string
     afterLoginPath: string
     featureNamespace: string

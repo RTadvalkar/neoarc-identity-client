@@ -1,11 +1,20 @@
 export type {
     AuthStatus,
     IdentityClientAppAdapter,
+    SessionClaimFreshnessReason,
+    SessionFreshnessViewModel,
+    SessionRuntimeState,
     SessionViewModel,
 } from "./session-types"
 export type { AuthErrorEnvelope, AuthErrorCode } from "./auth-errors"
 export { SessionProvider, useSession, useSessionActions } from "./session-provider"
+export {
+    SessionFreshnessProvider,
+    useSessionFreshness,
+    useSessionFreshnessActions,
+} from "./session-freshness-provider"
 export { fetchSession } from "./session-client"
+export { fetchSessionFreshness } from "./session-freshness-client"
 export { navigateToLogin, navigateToLogout } from "./auth-actions"
 export {
     sessionHasPermission,
