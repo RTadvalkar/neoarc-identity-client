@@ -3,6 +3,8 @@ import type { AuthErrorEnvelope } from "./auth-errors"
 export type AuthStatus = "authenticated" | "unauthenticated" | "loading"
 
 export const SESSION_RUNTIME_STATES = [
+    /** No staff session cookie — not a reauth failure; callers must not treat as INVALID_REAUTH. */
+    "ANONYMOUS",
     "VALID_FRESH",
     "VALID_STALE_REFRESHING",
     "VALID_STALE_RESTRICTED",

@@ -17,10 +17,12 @@ export async function fetchSessionFreshness(
         },
     })
 
+    // Platform BFF historically returned 401 with INVALID_REAUTH for "no cookie" — that wrongly
+    // triggered Keycloak redirects. No session is anonymous, not reauth-required.
     if (res.status === 401) {
         return {
-            runtimeState: "INVALID_REAUTH_REQUIRED",
-            reasons: ["REFRESH_FAILED"],
+            runtimeState: "ANONYMOUS",
+            reasons: [],
             throttled: false,
             checkedAt: new Date().toISOString(),
         }
