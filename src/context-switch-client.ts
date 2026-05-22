@@ -3,7 +3,7 @@ import type { AuthErrorEnvelope } from "./auth-errors"
 
 export async function postContextSwitch(
     adapter: IdentityClientAppAdapter,
-    body: { tenantId: number },
+    body: { tenantId: string },
     csrfToken: string,
     init?: RequestInit
 ): Promise<{ ok: true } | { ok: false; error: AuthErrorEnvelope }> {

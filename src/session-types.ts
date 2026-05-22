@@ -64,11 +64,13 @@ export interface SessionViewModel {
         displayName?: string
         level?: string
     }
-    activeTenant?: { id: number; name?: string }
-    availableTenants?: Array<{ id: number; name?: string }>
+    activeTenant?: { id: string; name?: string }
+    availableTenants?: Array<{ id: string; name?: string }>
     claimsVersion?: string
     contextVersion?: string
     operatorContext?: string
+    /** Policy role codes keyed by tenant UUID (canonical). */
+    rolesPerTenant?: Record<string, string[]>
     roleIds?: number[]
     reauthenticationRequired?: boolean
     assuranceLevel?: string
