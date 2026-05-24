@@ -9,6 +9,7 @@ export async function fetchSession(
     const res = await fetch(adapter.sessionEndpoint, {
         ...init,
         credentials: "same-origin",
+        cache: "no-store",
         headers: {
             Accept: "application/json",
             ...(init?.headers as Record<string, string>),

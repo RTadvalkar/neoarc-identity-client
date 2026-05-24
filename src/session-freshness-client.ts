@@ -11,6 +11,7 @@ export async function fetchSessionFreshness(
     const res = await fetch(adapter.freshnessEndpoint, {
         ...init,
         credentials: "same-origin",
+        cache: "no-store",
         headers: {
             Accept: "application/json",
             ...(init?.headers as Record<string, string>),
