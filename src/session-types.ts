@@ -74,6 +74,8 @@ export interface SessionViewModel {
     roleIds?: number[]
     reauthenticationRequired?: boolean
     assuranceLevel?: string
+    mfaEnabled?: boolean
+    assuranceMethods?: string[]
     authTime?: number
 }
 

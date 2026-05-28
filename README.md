@@ -8,6 +8,10 @@ Reusable **session + auth fetch** surface for **neoarc-platform-app** and produc
 - `@neoarc/identity-client/browser` — `SessionProvider`, `useSession`, `createAuthFetch`, guards, helpers
 - `@neoarc/identity-client/server` — `getServerSession` / `requireServerSession` (extend in BFF)
 
+## Integrating a product UI
+
+Use [`docs/product-integration.md`](./docs/product-integration.md) for the per-product recipe (adapter contract, Mode A vs Mode B, session DTO, env vars, v0-test-copilot skeleton). Cross-cutting hub: [`product-integration-guide.md`](../../docs/testcopilot-arch/platform-app/product-integration-guide.md).
+
 ## Local development with neoarc-platform-app
 
 1. **`file:` dependency** (simplest without a workspace):
