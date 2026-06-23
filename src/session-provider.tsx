@@ -31,6 +31,20 @@ export function SessionProvider({
         void refresh()
     }, [refresh])
 
+    React.useEffect(() => {
+        const onVisible = () => {
+            if (document.visibilityState === "visible") {
+                void refresh()
+            }
+        }
+        window.addEventListener("focus", onVisible)
+        document.addEventListener("visibilitychange", onVisible)
+        return () => {
+            window.removeEventListener("focus", onVisible)
+            document.removeEventListener("visibilitychange", onVisible)
+        }
+    }, [refresh])
+
     const value = React.useMemo(() => ({ session, refresh }), [session, refresh])
 
     return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>

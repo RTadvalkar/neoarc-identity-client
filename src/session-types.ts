@@ -8,6 +8,10 @@ export const SESSION_RUNTIME_STATES = [
     "VALID_FRESH",
     "VALID_STALE_REFRESHING",
     "VALID_STALE_RESTRICTED",
+    /** Lock held elsewhere — immediate refresh deferred; retry with backoff. */
+    "VALID_STALE_REFRESH_DEFERRED",
+    /** Production Redis unavailable — refresh not attempted (retryable). */
+    "REFRESH_COORDINATION_UNAVAILABLE",
     "INVALID_REAUTH_REQUIRED",
 ] as const
 
@@ -23,6 +27,8 @@ export const SESSION_CLAIM_FRESHNESS_REASONS = [
     "ACTIVE_TENANT_INVALID",
     "USER_DISABLED",
     "REFRESH_FAILED",
+    "SYNC_PENDING",
+    "TENANT_ADDED",
 ] as const
 
 export type SessionClaimFreshnessReason = (typeof SESSION_CLAIM_FRESHNESS_REASONS)[number]
@@ -65,6 +71,8 @@ export interface SessionViewModel {
         level?: string
     }
     activeTenant?: { id: string; name?: string }
+    /** BFF control-plane UX scope — not JWT actor tenant. */
+    targetTenant?: { id: string; name?: string; tenantContext?: string }
     availableTenants?: Array<{ id: string; name?: string }>
     claimsVersion?: string
     contextVersion?: string

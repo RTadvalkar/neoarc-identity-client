@@ -10,6 +10,27 @@ const SessionFreshnessContext = React.createContext<{
 } | null>(null)
 
 const DEFAULT_POLL_MS = 30_000
+const DEFERRED_POLL_MS = 2_000
+const UNAVAILABLE_POLL_MS = 5_000
+
+function pollDelayMs(freshness: SessionFreshnessViewModel | null, defaultPollMs: number): number {
+    if (freshness?.throttled) {
+        return Math.max(freshness.retryAfterMs ?? defaultPollMs, 1000)
+    }
+    if (freshness?.runtimeState === "VALID_STALE_REFRESH_DEFERRED") {
+        return Math.max(freshness.retryAfterMs ?? DEFERRED_POLL_MS, 1000)
+    }
+    if (freshness?.runtimeState === "REFRESH_COORDINATION_UNAVAILABLE") {
+        return Math.max(freshness.retryAfterMs ?? UNAVAILABLE_POLL_MS, 1000)
+    }
+    if (
+        freshness?.runtimeState === "VALID_STALE_RESTRICTED" ||
+        freshness?.runtimeState === "VALID_STALE_REFRESHING"
+    ) {
+        return Math.min(defaultPollMs, 10_000)
+    }
+    return defaultPollMs
+}
 
 export function SessionFreshnessProvider({
     adapter,
@@ -37,14 +58,25 @@ export function SessionFreshnessProvider({
         if (!adapter.freshnessEndpoint) {
             return
         }
-        const delay = freshness?.throttled
-            ? Math.max(freshness.retryAfterMs ?? pollIntervalMs, 1000)
-            : pollIntervalMs
+        const delay = pollDelayMs(freshness, pollIntervalMs)
         const timer = window.setTimeout(() => {
             void refreshFreshness()
         }, delay)
         return () => window.clearTimeout(timer)
     }, [adapter.freshnessEndpoint, freshness, pollIntervalMs, refreshFreshness])
+
+    React.useEffect(() => {
+        if (!adapter.freshnessEndpoint) {
+            return
+        }
+        const onVisible = () => {
+            if (document.visibilityState === "visible") {
+                void refreshFreshness()
+            }
+        }
+        document.addEventListener("visibilitychange", onVisible)
+        return () => document.removeEventListener("visibilitychange", onVisible)
+    }, [adapter.freshnessEndpoint, refreshFreshness])
 
     const value = React.useMemo(
         () => ({ freshness, refreshFreshness }),
