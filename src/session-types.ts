@@ -68,6 +68,9 @@ export interface SessionViewModel {
         id: string
         email?: string
         displayName?: string
+        givenName?: string
+        familyName?: string
+        picture?: string
         level?: string
     }
     activeTenant?: { id: string; name?: string }
