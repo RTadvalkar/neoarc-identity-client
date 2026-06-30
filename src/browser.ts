@@ -8,6 +8,7 @@ export type {
 } from "./session-types"
 export type { AuthErrorEnvelope, AuthErrorCode } from "./auth-errors"
 export { SessionProvider, useSession, useSessionActions } from "./session-provider"
+export type { SessionRefreshOptions } from "./session-refresh-policy"
 export {
     SessionFreshnessProvider,
     useSessionFreshness,

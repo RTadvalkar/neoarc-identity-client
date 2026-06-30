@@ -1,6 +1,6 @@
 {
   "name": "@neoarc/identity-client",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Reusable NeoArc identity/session client for platform and product UIs.",
   "type": "module",
