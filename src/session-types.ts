@@ -66,6 +66,11 @@ export interface SessionViewModel {
     status: AuthStatus
     user?: {
         id: string
+        /**
+         * OIDC JWT {@code sub} (IdP subject). Distinct from NeoArc {@code userid} when both exist.
+         * Citation-review open echo against Governance accepts this or NeoArc user id.
+         */
+        providerSubjectId?: string
         email?: string
         displayName?: string
         givenName?: string
